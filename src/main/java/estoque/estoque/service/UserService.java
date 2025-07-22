@@ -2,6 +2,7 @@ package estoque.estoque.service;
 
 import estoque.estoque.model.User;
 import estoque.estoque.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -25,6 +28,7 @@ public class UserService {
     }
 
     public User create(User user) {
+        user.setSenha(passwordEncoder.encode(user.getSenha()));
         return repository.save(user);
     }
 
@@ -34,7 +38,13 @@ public class UserService {
         existing.setNome(user.getNome());
         existing.setEmail(user.getEmail());
         existing.setAdmin(user.isAdmin());
-        existing.setSenha(user.getSenha());
+        existing.setCompany(user.getCompany());
+
+        // só altera a senha se ela foi alterada (opcional)
+        if (user.getSenha() != null && !user.getSenha().isBlank()) {
+            existing.setSenha(passwordEncoder.encode(user.getSenha()));
+        }
+
         return repository.save(existing);
     }
 

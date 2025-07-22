@@ -33,30 +33,38 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody UserDTO dto) {
-        Company company = companyRepository.findById(dto.getCompanyId())
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
-
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
         user.setAdmin(dto.isAdmin());
-        user.setCompany(company);
+
+        if (dto.getCompanyId() != null) {
+            Company company = companyRepository.findById(dto.getCompanyId())
+                    .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+            user.setCompany(company);
+        } else {
+            user.setCompany(null);
+        }
 
         return service.create(user);
     }
 
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody UserDTO dto) {
-        Company company = companyRepository.findById(dto.getCompanyId())
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
-
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
         user.setAdmin(dto.isAdmin());
-        user.setCompany(company);
+
+        if (dto.getCompanyId() != null) {
+            Company company = companyRepository.findById(dto.getCompanyId())
+                    .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+            user.setCompany(company);
+        } else {
+            user.setCompany(null);
+        }
 
         return service.update(id, user);
     }
