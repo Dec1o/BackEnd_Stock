@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService service;
@@ -40,7 +41,7 @@ public class UserController {
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
-        user.setAdmin(dto.isAdmin());
+        user.setAdmin(false); // Sempre ADMIN = 0 ao criar via rota protegida
         user.setCompany(company);
 
         return service.create(user);
