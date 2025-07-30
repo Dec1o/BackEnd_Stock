@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService service;
@@ -33,38 +34,30 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody UserDTO dto) {
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
-        user.setAdmin(dto.isAdmin());
-
-        if (dto.getCompanyId() != null) {
-            Company company = companyRepository.findById(dto.getCompanyId())
-                    .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
-            user.setCompany(company);
-        } else {
-            user.setCompany(null);
-        }
+        user.setAdmin(false); // Sempre ADMIN = 0 ao criar via rota protegida
+        user.setCompany(company);
 
         return service.create(user);
     }
 
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody UserDTO dto) {
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
         user.setAdmin(dto.isAdmin());
-
-        if (dto.getCompanyId() != null) {
-            Company company = companyRepository.findById(dto.getCompanyId())
-                    .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
-            user.setCompany(company);
-        } else {
-            user.setCompany(null);
-        }
+        user.setCompany(company);
 
         return service.update(id, user);
     }
