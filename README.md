@@ -309,6 +309,7 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 ● DELETE /products/{id}
 
 
-Todas as rotas protegidas exigem token JWT no header:
+
+# Todas as rotas protegidas exigem token JWT no header:
 
 Authorization: Bearer <seu-token>
