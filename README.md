@@ -1,5 +1,7 @@
 SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
+
+
 # 📁 Summary
 
 ● Environment Preparation
@@ -16,6 +18,8 @@ SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
 ● Route List
 
+
+
 # 🛠 1. Environment Preparation
 
 # Requirements:
@@ -27,6 +31,7 @@ SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 ● MySQL 8+
 
 ● IDE (e.g., IntelliJ, Eclipse, VS Code)
+
 
 # Steps:
 
@@ -40,9 +45,12 @@ SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
 5. Start the project via the IDE or with: mvn spring-boot:run
 
+
+
 # 📟 2. System Operation
 
-# 2.1 Authentication and Registration
+
+# 2.1 Authentication and Registration:
 
 ● Admin user registration (without a company) via /register
 
@@ -52,11 +60,13 @@ SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
 ● Passwords saved with BCrypt
 
+
 # 2.2 Users
 
 ● Admins can create, edit, list, and delete users within their own company
 
 ● Regular users are not allowed to create new users
+
 
 # 2.3 Companies
 
@@ -66,17 +76,21 @@ SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
 ● Admins can edit or delete their own company
 
+
 # 2.4 Categories
 
 ● CRUD of categories linked to the logged-in user's company
+
 
 # 2.5 Products
 
 ● CRUD of products linked to a category (and therefore, to a company)
 
-# 🧱 3. Monolithic Design Pattern
 
+
+# 🧱 3. Monolithic Design Pattern:
 This system adopts the monolithic design pattern, in which the entire application (business logic, control layer, persistence, and configuration) resides within a single project and codebase.
+
 
 # - Project Organization:
 
@@ -96,6 +110,8 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 
 └── EstoqueApplication.java
 
+
+
 # 🤭 4. MVC Architecture (Model-View-Controller)
 
 # - Model (JPA entities)
@@ -107,6 +123,7 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 ● Category.java
 
 ● Product.java
+
 
 # - Controller (REST input layer)
 
@@ -122,6 +139,7 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 
 ● ProductController.java
 
+
 # - Service (business logic)
 
 ● AuthService.java
@@ -134,6 +152,7 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 
 ● ProductService.java
 
+
 # - Repository (database access)
 
 ● UserRepository.java
@@ -143,6 +162,7 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 ● CategoryRepository.java
 
 ● ProductRepository.java
+
 
 # - DTOs (data transport)
 
@@ -158,6 +178,7 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 
 ● ProductDTO.java
 
+
 # - Settings
 
 ● JwtUtil.java
@@ -165,6 +186,8 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 ● JwtFilter.java
 
 ● SecurityConfig.java
+
+
 
 # 📂 5. Entity-Relationship (ER) Model
 
@@ -176,9 +199,11 @@ This system adopts the monolithic design pattern, in which the entire applicatio
 
 ● Product → belongs to a Category (ManyToOne)
 
-# 🔐 6. JWT Authentication System
 
+
+# 🔐 6. JWT Authentication System
 The system uses JWT (JSON Web Token) for route authentication and authorization:
+
 
 # Components:
 
@@ -196,6 +221,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 
 ● SecurityConfig.java → Defines API security policies
 
+
 # Flow:
 
 # - POST /auth/login
@@ -205,6 +231,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 → Validates email/password → Generates JWT
 
 → Returns accessToken and refreshToken
+
 
 # - Requests with JWT
 
@@ -216,6 +243,8 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 
 → Generates a new accessToken from refreshToken
 
+
+
 # 🌐 7. Route List
 
 # Authentication:
@@ -225,7 +254,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 ● POST /auth/refresh
 
 
-# Users:
+# Usuários:
 
 ● POST /register
 
@@ -240,7 +269,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 ● DELETE /users/{id}
 
 
-# Companies:
+# Empresas:
 
 ● POST /companies
 
@@ -251,7 +280,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 ● DELETE /companies/{id}
 
 
-# Categories:
+# Categorias:
 
 ● GET /categories
 
@@ -264,7 +293,7 @@ The system uses JWT (JSON Web Token) for route authentication and authorization:
 ● DELETE /categories/{id}
 
 
-# Products:
+# Produtos:
 
 ● GET /products
 
