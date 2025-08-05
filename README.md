@@ -1,6 +1,5 @@
-Sistema de Estoque SpringBoot
-Desenvolvido por: Décio Carvalho Faria
-
+# Sistema de Estoque SpringBoot
+# Desenvolvido por: Décio Carvalho Faria
 
 
 # 📁 Sumário
