@@ -22,7 +22,7 @@ Desenvolvido por: Décio Carvalho Faria
 
 
 
-# 🛠 2. Preparação do Ambiente
+# 🛠 1. Preparação do Ambiente
 
 
 # Requisitos:
@@ -50,9 +50,9 @@ Desenvolvido por: Décio Carvalho Faria
 
 
 
-# 📟 3. Funcionamento do Sistema
+# 📟 2. Funcionamento do Sistema
 
-# 3\.1 Autenticação e Registro
+# 2\.1 Autenticação e Registro
 
 ● Registro de usuários admin (sem empresa) via /register
 
@@ -61,14 +61,14 @@ Desenvolvido por: Décio Carvalho Faria
 ● Atualização de token via /auth/refresh
 
 
-# 3\.2 Usuários
+# 2\.2 Usuários
 
 ● Admins podem criar, editar, listar e excluir usuários da própria empresa
 
 ● Usuários comuns não têm permissão para criar novos usuários
 
 
-# 3\.3 Empresas
+# 2\.3 Empresas
 
 ● Apenas administradores podem criar sua empresa
 
@@ -77,18 +77,18 @@ Desenvolvido por: Décio Carvalho Faria
 ● Admin pode editar ou excluir sua própria empresa
 
 
-# 3\.4 Categorias
+# 2\.4 Categorias
 
 ● CRUD de categorias vinculadas à empresa do usuário logado
 
 
-# 3\.5 Produtos
+# 2\.5 Produtos
 
 ● CRUD de produtos vinculados a uma categoria (e portanto, a uma empresa)
 
 
 
-# 🧱 4. Padrão de Projeto Monolítico
+# 🧱 3. Padrão de Projeto Monolítico
 
 Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de negócio, camada de controle, persistência e configuração) reside dentro de um único projeto e código-base.
 
@@ -104,7 +104,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 
 
-# 🤭 5. Arquitetura MVC (Model-View-Controller)
+# 🤭 4. Arquitetura MVC (Model-View-Controller)
 
 # - Model (entidades JPA)
 
@@ -182,7 +182,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 
 
-# 📂 6. Modelo Entidade-Relacionamento (ER)
+# 📂 5. Modelo Entidade-Relacionamento (ER)
 
 ● User → pertence a uma Company (ManyToOne)
 
@@ -194,7 +194,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 
 
-# 🔐 7. Sistema de Autenticação JWT
+# 🔐 6. Sistema de Autenticação JWT
 
 O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das rotas:
 
@@ -240,7 +240,7 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 
 
 
-# 🌐 8. Lista de rotas
+# 🌐 7. Lista de rotas
 
 # Autenticação:
 
@@ -302,4 +302,5 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 
 
 Todas as rotas protegidas exigem token JWT no header:
+
 Authorization: Bearer <seu-token>
