@@ -52,7 +52,7 @@ Desenvolvido por: Décio Carvalho Faria
 
 # 📟 3. Funcionamento do Sistema
 
-3\.1 Autenticação e Registro
+# 3\.1 Autenticação e Registro
 
 ● Registro de usuários admin (sem empresa) via /register
 
