@@ -1,29 +1,24 @@
-Sistema de Estoque SpringBoot, desenvolvido por: Décio Carvalho Faria.
+SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
+# 📁 Summary
 
-# 📁 Sumário
+● Environment Preparation
 
+● System Operation
 
-● Preparação do Ambiente
-  
-● Funcionamento do Sistema
-  
-● Padrão de Projeto Monolítico
-  
-● Arquitetura MVC
-  
-● Modelo Entidade Relacionamento (ER)
-  
-● Sistema de Autenticação
-  
-● Lista de Rotas
+● Monolithic Design Pattern
 
+● MVC Architecture
 
+● Entity Relationship (ER) Model
 
-# 🛠 1. Preparação do Ambiente
+● Authentication System
 
+● Route List
 
-# Requisitos:
+# 🛠 1. Environment Preparation
+
+# Requirements:
 
 ● Java 17
 
@@ -31,68 +26,59 @@ Sistema de Estoque SpringBoot, desenvolvido por: Décio Carvalho Faria.
 
 ● MySQL 8+
 
-● IDE (ex: IntelliJ, Eclipse, VS Code)
+● IDE (e.g., IntelliJ, Eclipse, VS Code)
 
+# Steps:
 
-# Passos:
+1. Clone the repository
 
-1. Clone o repositório
-   
-2. Crie um banco de dados MySQL chamado “ estoque ”
-   
-3. Configure application.properties com as credenciais do banco
-   
-4. Rode: mvn clean install ,depois, mvn spring-boot:run
-   
-5. Inicie o projeto via IDE ou com: mvn spring-boot:run
+2. Create a MySQL database called "stock"
 
+3. Configure application.properties with the database credentials
 
+4. Run: mvn clean install , then mvn spring-boot:run
 
-# 📟 2. Funcionamento do Sistema
+5. Start the project via the IDE or with: mvn spring-boot:run
 
-# 2\.1 Autenticação e Registro
+# 📟 2. System Operation
 
-● Registro de usuários admin (sem empresa) via /register
+# 2.1 Authentication and Registration
 
-● Login com geração de token via /auth/login
+● Admin user registration (without a company) via /register
 
-● Atualização de token via /auth/refresh
+● Login with token generation via /auth/login
 
-● Senhas salvas com BCrypt
+● Token refresh via /auth/refresh
 
+● Passwords saved with BCrypt
 
-# 2\.2 Usuários
+# 2.2 Users
 
-● Admins podem criar, editar, listar e excluir usuários da própria empresa
+● Admins can create, edit, list, and delete users within their own company
 
-● Usuários comuns não têm permissão para criar novos usuários
+● Regular users are not allowed to create new users
 
+# 2.3 Companies
 
-# 2\.3 Empresas
+● Only administrators can create their own company
 
-● Apenas administradores podem criar sua empresa
+● Each admin can have only one company
 
-● Cada admin pode ter somente 1 empresa
+● Admins can edit or delete their own company
 
-● Admin pode editar ou excluir sua própria empresa
+# 2.4 Categories
 
+● CRUD of categories linked to the logged-in user's company
 
-# 2\.4 Categorias
+# 2.5 Products
 
-● CRUD de categorias vinculadas à empresa do usuário logado
+● CRUD of products linked to a category (and therefore, to a company)
 
+# 🧱 3. Monolithic Design Pattern
 
-# 2\.5 Produtos
+This system adopts the monolithic design pattern, in which the entire application (business logic, control layer, persistence, and configuration) resides within a single project and codebase.
 
-● CRUD de produtos vinculados a uma categoria (e portanto, a uma empresa)
-
-
-
-# 🧱 3. Padrão de Projeto Monolítico
-
-Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de negócio, camada de controle, persistência e configuração) reside dentro de um único projeto e código-base.
-
-# - Organização do Projeto:
+# - Project Organization:
 
 ├── controller
 
@@ -110,11 +96,9 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 └── EstoqueApplication.java
 
+# 🤭 4. MVC Architecture (Model-View-Controller)
 
-
-# 🤭 4. Arquitetura MVC (Model-View-Controller)
-
-# - Model (entidades JPA)
+# - Model (JPA entities)
 
 ● User.java
 
@@ -124,8 +108,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● Product.java
 
-
-# - Controller (camada de entrada REST)
+# - Controller (REST input layer)
 
 ● AuthController.java
 
@@ -139,8 +122,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● ProductController.java
 
-
-# - Service (lógica de negócio)
+# - Service (business logic)
 
 ● AuthService.java
 
@@ -152,8 +134,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● ProductService.java
 
-
-# - Repository (acesso ao banco de dados)
+# - Repository (database access)
 
 ● UserRepository.java
 
@@ -163,8 +144,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● ProductRepository.java
 
-
-# - DTOs (transporte de dados)
+# - DTOs (data transport)
 
 ● AuthRequestDTO.java
 
@@ -178,8 +158,7 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● ProductDTO.java
 
-
-# - Configurações
+# - Settings
 
 ● JwtUtil.java
 
@@ -187,77 +166,66 @@ Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de 
 
 ● SecurityConfig.java
 
+# 📂 5. Entity-Relationship (ER) Model
 
+● User → belongs to a Company (ManyToOne)
 
+● Company → has many Users and Categories (OneToMany)
 
-# 📂 5. Modelo Entidade-Relacionamento (ER)
+● Category → belongs to a Company (ManyToOne)
 
-● User → pertence a uma Company (ManyToOne)
+● Product → belongs to a Category (ManyToOne)
 
-● Company → possui muitos Users e Categories (OneToMany)
+# 🔐 6. JWT Authentication System
 
-● Category → pertence a uma Company (ManyToOne)
+The system uses JWT (JSON Web Token) for route authentication and authorization:
 
-● Product → pertence a uma Category (ManyToOne)
+# Components:
 
+● AuthRequestDTO.java → receives email/password
 
+● AuthResponseDTO.java → returns tokens
 
-# 🔐 6. Sistema de Autenticação JWT
+● AuthController.java → /login and /refresh
 
-O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das rotas:
+● AuthService.java → Logic for authentication and token generation
 
+● JwtUtil.java → JWT generation, extraction, and verification
 
-# Componentes:
+● JwtFilter.java → Intercepts requests to validate tokens
 
-● AuthRequestDTO.java → recebe email/senha
+● SecurityConfig.java → Defines API security policies
 
-● AuthResponseDTO.java → retorna tokens
-
-● AuthController.java → endpoints /login e /refresh
-
-● AuthService.java → lógica para autenticação e geração de tokens
-
-● JwtUtil.java → geração, extração e verificação de JWT
-
-● JwtFilter.java → intercepta requisições para validar token
-
-● SecurityConfig.java → define políticas de segurança da API
-
-
-# Fluxo:
+# Flow:
 
 # - POST /auth/login
-  
-→ AuthController chama AuthService
 
-→ Valida email/senha → Gera JWT
+→ AuthController calls AuthService
 
-→ Retorna accessToken e refreshToken
+→ Validates email/password → Generates JWT
 
+→ Returns accessToken and refreshToken
 
-# - Requisições com JWT
+# - Requests with JWT
 
-→ Cliente envia token no Header Authorization
+→ Client sends token in the Authorization Header
 
-→ JwtFilter valida e autentica
-
+→ JwtFilter validates and authenticates
 
 # - POST /auth/refresh
 
-→ Gera novo accessToken a partir do refreshToken
+→ Generates a new accessToken from refreshToken
 
+# 🌐 7. Route List
 
-
-# 🌐 7. Lista de rotas
-
-# Autenticação:
+# Authentication:
 
 ● POST /auth/login
 
 ● POST /auth/refresh
 
 
-# Usuários:
+# Users:
 
 ● POST /register
 
@@ -272,7 +240,7 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 ● DELETE /users/{id}
 
 
-# Empresas:
+# Companies:
 
 ● POST /companies
 
@@ -283,7 +251,7 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 ● DELETE /companies/{id}
 
 
-# Categorias:
+# Categories:
 
 ● GET /categories
 
@@ -296,7 +264,7 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 ● DELETE /categories/{id}
 
 
-# Produtos:
+# Products:
 
 ● GET /products
 
@@ -310,6 +278,6 @@ O sistema utiliza JWT (JSON Web Token) para autenticação e autorização das r
 
 
 
-# Todas as rotas protegidas exigem token JWT no header:
+# All protected routes require JWT token in the header:
 
-Authorization: Bearer <seu-token>
+Authorization: Bearer <your-token>
