@@ -93,13 +93,21 @@ Desenvolvido por: Décio Carvalho Faria
 Este sistema adota o padrão monolítico, em que toda a aplicação (lógica de negócio, camada de controle, persistência e configuração) reside dentro de um único projeto e código-base.
 
 # - Organização do Projeto:
+
 ├── controller
+
 ├── service
+
 ├── model
+
 ├── repository
+
 ├── dto
+
 ├── filter
+
 ├── config
+
 └── EstoqueApplication.java
 
 
