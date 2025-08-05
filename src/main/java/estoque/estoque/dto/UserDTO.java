@@ -8,7 +8,5 @@ public class UserDTO {
     private String email;
     private String senha;
     private boolean admin;
-    private Long companyId;
+    private Long companyId; // ← será ignorado no POST /users, mas pode ser usado no PUT
 }
-
-

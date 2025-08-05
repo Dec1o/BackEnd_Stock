@@ -1,10 +1,13 @@
 package estoque.estoque.service;
 
+import estoque.estoque.dto.ProductDTO;
 import estoque.estoque.model.Category;
 import estoque.estoque.model.Product;
 import estoque.estoque.repository.CategoryRepository;
 import estoque.estoque.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -25,22 +28,38 @@ public class ProductService {
 
     public Product findById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
     }
 
-    public Product create(Product product) {
+    public Product create(ProductDTO dto) {
+        Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não encontrada"));
+
+        Product product = new Product();
+        product.setNome(dto.getNome());
+        product.setPreco(dto.getPreco());
+        product.setCategory(category);
+
         return productRepository.save(product);
     }
 
-    public Product update(Long id, Product product) {
+    public Product update(Long id, ProductDTO dto) {
         Product existing = findById(id);
-        existing.setNome(product.getNome());
-        existing.setPreco(product.getPreco());
-        existing.setCategory(product.getCategory());
+
+        Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não encontrada"));
+
+        existing.setNome(dto.getNome());
+        existing.setPreco(dto.getPreco());
+        existing.setCategory(category);
+
         return productRepository.save(existing);
     }
 
     public void delete(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
+        }
         productRepository.deleteById(id);
     }
 }

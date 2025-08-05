@@ -1,9 +1,7 @@
 package estoque.estoque.controller;
 
 import estoque.estoque.dto.ProductDTO;
-import estoque.estoque.model.Category;
 import estoque.estoque.model.Product;
-import estoque.estoque.repository.CategoryRepository;
 import estoque.estoque.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +9,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     private final ProductService productService;
-    private final CategoryRepository categoryRepository;
 
-    public ProductController(ProductService productService, CategoryRepository categoryRepository) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping
@@ -33,28 +30,12 @@ public class ProductController {
 
     @PostMapping
     public Product create(@RequestBody ProductDTO dto) {
-        Category category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-
-        Product product = new Product();
-        product.setNome(dto.getNome());
-        product.setPreco(dto.getPreco());
-        product.setCategory(category);
-
-        return productService.create(product);
+        return productService.create(dto);
     }
 
     @PutMapping("/{id}")
     public Product update(@PathVariable Long id, @RequestBody ProductDTO dto) {
-        Category category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
-
-        Product product = new Product();
-        product.setNome(dto.getNome());
-        product.setPreco(dto.getPreco());
-        product.setCategory(category);
-
-        return productService.update(id, product);
+        return productService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

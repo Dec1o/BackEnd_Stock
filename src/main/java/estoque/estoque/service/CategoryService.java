@@ -1,8 +1,13 @@
 package estoque.estoque.service;
 
+import estoque.estoque.dto.CategoryDTO;
 import estoque.estoque.model.Category;
+import estoque.estoque.model.Company;
 import estoque.estoque.repository.CategoryRepository;
+import estoque.estoque.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +16,11 @@ import java.util.Optional;
 public class CategoryService {
 
     private final CategoryRepository repository;
+    private final CompanyRepository companyRepository;
 
-    public CategoryService(CategoryRepository repository) {
+    public CategoryService(CategoryRepository repository, CompanyRepository companyRepository) {
         this.repository = repository;
+        this.companyRepository = companyRepository;
     }
 
     public List<Category> findAll() {
@@ -24,22 +31,36 @@ public class CategoryService {
         return repository.findById(id);
     }
 
-    public Category create(Category category) {
+    public Category create(CategoryDTO dto) {
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não encontrada"));
+
+        Category category = new Category();
+        category.setNome(dto.getNome());
+        category.setDescricao(dto.getDescricao());
+        category.setCompany(company);
+
         return repository.save(category);
     }
 
-    public Category update(Long id, Category category) {
+    public Category update(Long id, CategoryDTO dto) {
         Category existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada"));
 
-        existing.setNome(category.getNome());
-        existing.setDescricao(category.getDescricao());
-        existing.setCompany(category.getCompany());
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empresa não encontrada"));
+
+        existing.setNome(dto.getNome());
+        existing.setDescricao(dto.getDescricao());
+        existing.setCompany(company);
 
         return repository.save(existing);
     }
 
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada");
+        }
         repository.deleteById(id);
     }
 }
