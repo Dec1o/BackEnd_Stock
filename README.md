@@ -1,5 +1,6 @@
 SpringBoot Inventory System, developed by: Décio Carvalho Faria.
 
+<img width="1919" height="990" alt="spring" src="https://github.com/user-attachments/assets/0a78dbca-d87a-4b1f-93c6-6cf0dd493f9e" />
 
 
 # 📁 Summary
